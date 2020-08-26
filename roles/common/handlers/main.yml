@@ -1,9 +1,15 @@
 ---
 
-- name: restart firewalld
+- name: Restart firewalld
   become: yes
   service:
     name: firewalld
+    state: restarted
+
+- name: Restart ssh
+  become: yes
+  service:
+    name: sshd
     state: restarted
 
 ...

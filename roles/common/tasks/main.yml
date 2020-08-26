@@ -19,6 +19,24 @@
     name: "{{ common_required_packages }}"
     state: present
 
+- name: Disallow root ssh access
+  become: yes
+  lineinfile: 
+    dest: /etc/ssh/sshd_config
+    regexp: "^PermitRootLogin"
+    line: "PermitRootLogin no"
+    state: present
+  notify: Restart ssh
+
+- name: Disallow ssh password authentication
+  become: yes
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^PasswordAuthentication"
+    line: "PasswordAuthentication no"
+    state: present
+  notify: Restart ssh
+
 - name: Enable and start firewalld
   become: yes
   service: 
@@ -35,7 +53,7 @@
     state: disabled
   loop: "{{ common_delete_firewall_services }}"
   notify: 
-    - restart firewalld
+    - Restart firewalld
     
 - name: Add preset firewalld rules
   become: yes
@@ -46,7 +64,7 @@
     state: enabled
   loop: "{{ common_add_firewall_services }}"
   notify: 
-    - restart firewalld
+    - Restart firewalld
 
 
 ...
