@@ -12,4 +12,10 @@
     name: sshd
     state: restarted
 
+- name: Restart fail2ban
+  become: yes
+  service:
+    name: fail2ban
+    state: restarted
+
 ...

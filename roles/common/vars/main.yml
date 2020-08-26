@@ -7,6 +7,7 @@ common_required_repo:
   - epel-release
 common_delete_firewall_services:
   - cockpit
+  - dhcpv6-client
 common_add_firewall_services:
   - http
   - https

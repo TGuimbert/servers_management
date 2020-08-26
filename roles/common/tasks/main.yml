@@ -66,5 +66,21 @@
   notify: 
     - Restart firewalld
 
+- name: Enable and start fail2ban
+  become: yes
+  service:
+    name: fail2ban
+    state: started
+    enabled: yes
+
+- name: Copy jail.local
+  become: yes
+  copy:
+    src: roles/common/files/jail.local
+    dest: /etc/fail2ban/jail.local
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  notify: Restart fail2ban
 
 ...
