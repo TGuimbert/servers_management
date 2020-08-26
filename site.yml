@@ -1,0 +1,7 @@
+---
+- name: Install Bitwarden behind Traefik reverse proxy
+  hosts: docker-servers 
+  roles:
+    - common
+
+...
