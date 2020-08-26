@@ -3,7 +3,7 @@
 ## Requirements
 
 * This playbook is only tested with Centos8 
-* _ansible_ account on managed servers with public key authentication enabled (`ssh-copy-id`)
+* _ansible_ account on managed servers with public key authentication enabled (`ssh-copy-id`) with sudo rights
 
 ## How to use
 

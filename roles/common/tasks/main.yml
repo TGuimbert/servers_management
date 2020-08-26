@@ -1,10 +1,52 @@
 ---
 
-- name: update packages
+- name: Update packages
   become: yes
   dnf:
     name: "*"
     state: latest
   when: ansible_facts['os_family'] == "RedHat"
+
+- name: Install required repo
+  become: yes
+  dnf:
+    name: epel-release
+    state: present
+
+- name: Install required packages
+  become: yes
+  dnf:
+    name: "{{ common_required_packages }}"
+    state: present
+
+- name: Enable and start firewalld
+  become: yes
+  service: 
+    name: firewalld
+    state: started
+    enabled: yes
+
+- name: Delete preset firewalld rules
+  become: yes
+  firewalld:
+    zone: public
+    service: "{{ item }}"
+    permanent: yes
+    state: disabled
+  loop: "{{ common_delete_firewall_services }}"
+  notify: 
+    - restart firewalld
+    
+- name: Add preset firewalld rules
+  become: yes
+  firewalld:
+    zone: public
+    service: "{{ item }}"
+    permanent: yes
+    state: enabled
+  loop: "{{ common_add_firewall_services }}"
+  notify: 
+    - restart firewalld
+
 
 ...
