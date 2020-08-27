@@ -83,4 +83,21 @@
     mode: u=rw,g=r,o=r
   notify: Restart fail2ban
 
+- name: Copy dnf-automatic configuration
+  become: yes
+  copy:
+    src: roles/common/files/automatic.conf
+    dest: /etc/dnf/automatic.conf
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+
+- name: Enable dnf-automatic timer
+  become: yes
+  service:
+    name: dnf-automatic.timer
+    state: started
+    enabled: yes
+
+
 ...
